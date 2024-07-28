@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Muhim Voqealar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 1rem;
+        }
+        form input[type="date"] {
+            padding: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .event-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .event-list li {
+            margin-bottom: 1rem;
+        }
+        .event-list h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .event-list p {
+            margin: 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sanani kiritish</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Qidirish</button>
+        </form>
+
+        {% if events %}
+            <h2>{{ form.cleaned_data.date }} sanasidagi muhim voqealar:</h2>
+            <ul class="event-list">
+                {% for event in events %}
+                    <li>
+                        <h2>{{ event.text }}</h2>
+                        <p>{{ event.year }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% elif events is not None %}
+            <p>Hech qanday voqea topilmadi.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
